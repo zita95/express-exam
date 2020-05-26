@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Express Typescript Skeleton",
+    "title": "Express Typescript Skeleton"
   },
   "schemes": [
     "http"
@@ -13,14 +13,175 @@
     "application/json"
   ],
   "paths": {
-    "/": {
+    "/flat": {
       "get": {
-        "summary": "Hello World",
-        "operationId": "helloWorld",
+        "summary": "get all flats",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Return with Hello World message"
+            "description": "ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#definitions/Flat"
+              }
+            }
           }
+        }
+      },
+      "post": {
+        "summary": "create flat",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#definitions/FlatRequest",
+              "required": [
+                "title",
+                "price",
+                "floorArea",
+                "country",
+                "zip",
+                "city",
+                "street"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "created"
+          }
+        }
+      }
+    },
+    "/flat/{id}": {
+      "get":{
+        "summary": "Get flat by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200":{
+            "description": "ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#definitions/Flat"
+              }
+           }
+          }
+        }
+      },
+      "put": {
+        "summary": "Modify flat",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#definitions/FlatRequest",
+              "required": [
+                "title",
+                "price",
+                "floorArea",
+                "counrty",
+                "zip",
+                "city",
+                "street"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete flat",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "not found"
+          }
+        }
+      }
+    }
+  },
+  
+  "definitions": {
+    "Flat": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "floorArea": {
+          "type": "integer"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "FlatRequest": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "floorArea": {
+          "type": "integer"
+        },
+        "counrty": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "integer"
+        },
+        "city": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
         }
       }
     }
